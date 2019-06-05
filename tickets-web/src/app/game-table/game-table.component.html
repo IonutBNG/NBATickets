@@ -1,0 +1,105 @@
+<div class="mat-elevation-z8">
+
+  <table [dataSource]="dataSource" mat-table>
+
+    <ng-container matColumnDef="match">
+      <th mat-header-cell *matHeaderCellDef> Match</th>
+      <td mat-cell *matCellDef="let games"> {{games.match}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="stage">
+      <th mat-header-cell *matHeaderCellDef> Stage</th>
+      <td mat-cell *matCellDef="let games"> {{games.stage}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Price</th>
+      <td mat-cell *matCellDef="let games"> {{games.price}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="availableSpots">
+      <th mat-header-cell *matHeaderCellDef> Available Spots</th>
+      <td mat-cell *matCellDef="let games"> {{games.availableSpots}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> View</th>
+
+      <mat-cell *matCellDef="let games">
+        <!--        <mat-slide-toggle color="primary" [checked]="users.counter > 0 ? true : false" (change)="onChange(users.username, users.counter)">  </mat-slide-toggle>-->
+        <button mat-raised-button class="editbtn" color="primary" (click)="view(games.id)"> View</button>
+        <button mat-raised-button class="addbtn" color="primary" (click)="add(addT, games)"> Add</button>
+        <ng-template #addT>
+          <app-popup *ngIf="loadComponent"></app-popup>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+
+
+    <!--    <ng-container matColumnDef="actions">-->
+    <!--      <th mat-header-cell  *matHeaderCellDef > Add </th>-->
+    <!--      <mat-cell *matCellDef="let games" >-->
+    <!--      </mat-cell>-->
+    <!--    </ng-container>-->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let games; columns: displayedColumns;"></tr>
+    <!--    <ng-container matColumnDef="userName">-->
+    <!--      <th mat-header-cell *matHeaderCellDef> Username </th>-->
+    <!--      <td mat-cell *matCellDef="let users"> {{users.username}} </td>-->
+    <!--    </ng-container>-->
+
+    <!--    <ng-container matColumnDef="counter">-->
+    <!--      <th mat-header-cell *matHeaderCellDef> Counter </th>-->
+    <!--      <td mat-cell *matCellDef="let users"> {{users.counter}} </td>-->
+    <!--    </ng-container>-->
+
+    <!--    <ng-container matColumnDef="actions">-->
+    <!--      <th mat-header-cell  *matHeaderCellDef > Activate </th>-->
+
+    <!--      <mat-cell *matCellDef="let users" >-->
+    <!--        <mat-slide-toggle color="primary" [checked]="users.counter > 0 ? true : false" (change)="onChange(users.username, users.counter)">  </mat-slide-toggle>-->
+    <!--        <button mat-raised-button class="editbtn" color="primary" (click)="edit(users)">  Edit </button>-->
+    <!--      </mat-cell>-->
+    <!--    </ng-container>-->
+
+  </table>
+  <!--  <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>-->
+
+
+</div>
+
+<div class="mat-elevation-z8">
+
+  <table [dataSource]="transactionsDataSource" mat-table>
+
+    <ng-container matColumnDef="gameID">
+      <th mat-header-cell *matHeaderCellDef> Game ID</th>
+      <td mat-cell *matCellDef="let transactions"> {{transactions.gameID}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="buyerID">
+      <th mat-header-cell *matHeaderCellDef> Buyer ID</th>
+      <td mat-cell *matCellDef="let transactions"> {{transactions.buyerID}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef> Timestamp</th>
+      <td mat-cell *matCellDef="let transactions"> {{transactions.timestamp}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete</th>
+
+      <mat-cell *matCellDef="let transactions">
+        <button mat-raised-button class="editbtn" color="primary" (click)="delete(transactions)"> Delete</button>
+      </mat-cell>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="transactionDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let transactions; columns: transactionDisplayedColumns;"></tr>
+
+
+  </table>
+
+</div>

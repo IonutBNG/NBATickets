@@ -2,6 +2,7 @@ package game.entity.converter;
 
 import game.entity.GameEntity;
 import game.entity.dto.GameDto;
+import game.gameStage.GameStage;
 
 import javax.ejb.Stateless;
 
@@ -22,9 +23,10 @@ public class GameConverter {
      * @return GameDto equivalent of the gameEntity
      */
     public GameDto convertEntityToDto(GameEntity gameEntity){
-        return new GameDto(gameEntity.getHomeTeam(),
+        return new GameDto(gameEntity.getId(),
+                gameEntity.getHomeTeam(),
                             gameEntity.getAwayTeam(),
-                            gameEntity.getStage(),
+                gameEntity.getStage().getDisplayString(),
                             gameEntity.getPrice(),
                             gameEntity.getAvailableSpots());
     }
@@ -38,7 +40,7 @@ public class GameConverter {
     public GameEntity convertDtoToEntity(GameDto gameDto) {
         return new GameEntity(gameDto.getTeams()[0],
                                 gameDto.getTeams()[1],
-                                gameDto.getStage(),
+                GameStage.getGameStageByString(gameDto.getStage()),
                                 gameDto.getPrice(),
                                 gameDto.getAvailableSpots());
     }

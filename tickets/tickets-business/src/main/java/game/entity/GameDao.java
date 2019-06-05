@@ -79,13 +79,19 @@ public class GameDao {
      * @param gameEntity
      * @param boughtTickets
      */
-    public void updateSpots(GameEntity gameEntity, int boughtTickets){
+    public Long updateSpots(GameEntity gameEntity, int boughtTickets) {
         this.entityManager
-                .createNamedQuery(GameEntity.UPDATESPOTS, GameEntity.class)
+                .createNamedQuery(GameEntity.UPDATE_SPOTS, GameEntity.class)
                 .setParameter(GameEntity.BOUGHT_TICKETS, boughtTickets)
                 .setParameter(GameEntity.HOME_TEAM, gameEntity.getHomeTeam())
                 .setParameter(GameEntity.AWAY_TEAM, gameEntity.getAwayTeam())
                 .executeUpdate();
+
+        return this.entityManager
+                .createNamedQuery(GameEntity.GET_ID, Long.class)
+                .setParameter(GameEntity.HOME_TEAM, gameEntity.getHomeTeam())
+                .setParameter(GameEntity.AWAY_TEAM, gameEntity.getAwayTeam())
+                .getSingleResult();
     }
 
     /**
@@ -98,5 +104,13 @@ public class GameDao {
                 .createNamedQuery(GameEntity.FIND_BY_ID, GameEntity.class)
                 .setParameter(GameEntity.ID, id)
                 .getSingleResult();
+    }
+
+    public void emptySpots(Long id, int spots) {
+        this.entityManager
+                .createNamedQuery(GameEntity.EMPTY_SPOTS)
+                .setParameter(GameEntity.EMPTIED_SPOTS, spots)
+                .setParameter(GameEntity.ID, id)
+                .executeUpdate();
     }
 }

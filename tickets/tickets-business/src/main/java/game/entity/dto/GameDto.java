@@ -10,6 +10,8 @@ import java.util.Objects;
  */
 public class GameDto {
 
+    private Long id;
+
     private String match;
 
     private String stage;
@@ -21,11 +23,20 @@ public class GameDto {
     public GameDto() {
     }
 
-    public GameDto(String homeTeam, String awayTeam, String stage, int price, int availableSpots) {
+    public GameDto(Long id, String homeTeam, String awayTeam, String stage, int price, int availableSpots) {
+        this.id = id;
         this.match = createMatch(homeTeam, awayTeam);
         this.stage = stage;
         this.price = price;
         this.availableSpots = availableSpots;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMatch() {

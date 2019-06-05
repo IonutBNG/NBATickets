@@ -1,5 +1,7 @@
 package application;
 
+import buyer.boundary.BuyerResource;
+import filter.CorsFilter;
 import game.boundary.GameResource;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
 
@@ -22,6 +24,8 @@ public class NBATicketsApplication extends Application {
     public Set<Class<?>> getClasses(){
         Set<Class<?>> classes = new HashSet<>();
         classes.add(GameResource.class);
+        classes.add(BuyerResource.class);
+        classes.add(CorsFilter.class);
 
         return super.getClasses();
     }

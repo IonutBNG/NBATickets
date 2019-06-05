@@ -53,11 +53,13 @@ public class GameResource {
         return Response.ok().build();
     }
 
-    @PUT
-    @Path("{boughtTickets}")
+    @POST
+    @Path("{name}/{boughtTickets}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateSpots(@PathParam("boughtTickets") int boughtTickets, GameDto gameDto){
-        this.gameFacade.updateSpots(gameDto, boughtTickets);
+    public Response updateSpots(@PathParam("name") String name,
+                                @PathParam("boughtTickets") int boughtTickets,
+                                GameDto gameDto) {
+        this.gameFacade.updateSpots(gameDto, boughtTickets, name);
         return Response.ok().build();
     }
 

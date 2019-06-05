@@ -17,7 +17,10 @@ import java.util.Objects;
 @NamedQueries(
         {
                 @NamedQuery(name = BuyerEntity.GET_ID, query = "Select MAX (buyer.id) from BuyerEntity buyer"),
-                @NamedQuery(name = BuyerEntity.GET_NAME, query = "Select buyer.name from BuyerEntity buyer where buyer.id = :" + BuyerEntity.ID)
+                @NamedQuery(name = BuyerEntity.GET_NAME, query = "Select buyer.name from BuyerEntity buyer where buyer.id = :" + BuyerEntity.ID),
+                @NamedQuery(name = BuyerEntity.GET_SPOTS, query = "Select buyer.spots from BuyerEntity buyer where buyer.id =:" + BuyerEntity.ID),
+                @NamedQuery(name = BuyerEntity.DELETE_BUYER, query = "Delete from BuyerEntity buyer where buyer.id = :" + BuyerEntity.ID)
+
         }
 )
 public class BuyerEntity extends BaseEntity<Long> {
@@ -25,6 +28,9 @@ public class BuyerEntity extends BaseEntity<Long> {
     public static final String GET_ID = "BuyerEntity.getId";
     public static final String ID = "id";
     public static final String GET_NAME = "BuyerEntity.getName";
+    public static final String GET_SPOTS = "BuyerEntity.getSpots";
+    public static final String DELETE_BUYER = "BuyerEntity.DeleteBuyer";
+
     @Column(name = "name", nullable = false)
     private String name;
 

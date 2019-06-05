@@ -1,9 +1,11 @@
 package game.controller;
 
+import buyer.controller.BuyerController;
 import game.entity.GameDao;
 import game.entity.GameEntity;
 import game.entity.converter.GameConverter;
 import game.entity.dto.GameDto;
+import transaction.controller.TransactionController;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -21,10 +23,17 @@ import java.util.stream.Collectors;
 public class GameController {
 
     @EJB
-    GameDao gameDao;
+    private GameDao gameDao;
 
     @EJB
-    GameConverter gameConverter;
+    private GameConverter gameConverter;
+
+    @EJB
+    private TransactionController transactionController;
+
+    @EJB
+    private BuyerController buyerController;
+
 
     /**
      *
@@ -68,6 +77,7 @@ public class GameController {
      * @param gameDto
      */
     public void updateGame(GameDto gameDto){
+
         this.gameDao.updatePrice(this.gameConverter.convertDtoToEntity(gameDto));
     }
 
@@ -77,9 +87,13 @@ public class GameController {
      * @param gameDto
      * @param boughtTickets
      */
-    public void updateSpots(GameDto gameDto, int boughtTickets){
-        //TODO validate the number of tickets
-        this.gameDao.updateSpots(this.gameConverter.convertDtoToEntity(gameDto), boughtTickets);
+    public void updateSpots(GameDto gameDto, int boughtTickets, String name) {
+        if (gameDto.getAvailableSpots() - boughtTickets <= 0) {
+            throw null;
+        }
+        this.transactionController
+                .persistTransaction(this.gameDao.updateSpots(this.gameConverter.convertDtoToEntity(gameDto), boughtTickets),
+                        this.buyerController.persistBuyer(name, boughtTickets));
     }
 
     /**
@@ -92,6 +106,10 @@ public class GameController {
     public GameDto findById(Long id){
         GameEntity gameEntity = this.gameDao.findById(id);
         return this.gameConverter.convertEntityToDto(gameEntity);
+    }
+
+    public void emptySpots(Long id, int spots) {
+        this.gameDao.emptySpots(id, spots);
     }
 
 

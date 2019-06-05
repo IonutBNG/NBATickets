@@ -40,8 +40,8 @@ public class GameFacade {
         this.gameController.updateGame(gameDto);
     }
 
-    public void updateSpots(GameDto gameDto, int boughtTickets){
-        this.gameController.updateSpots(gameDto, boughtTickets);
+    public void updateSpots(GameDto gameDto, int boughtTickets, String name) {
+        this.gameController.updateSpots(gameDto, boughtTickets, name);
     }
 
     public GameDto findById(Long id){

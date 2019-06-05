@@ -1,5 +1,6 @@
 package game.entity;
 
+import game.gameStage.GameStage;
 import utils.BaseEntity;
 
 import javax.persistence.*;
@@ -20,7 +21,10 @@ import java.util.Objects;
                 @NamedQuery(name = GameEntity.DELETE, query = "Delete from GameEntity g where g.id = :" + GameEntity.ID),
                 @NamedQuery(name = GameEntity.FIND_BY_ID, query = "Select g from GameEntity g where g.id = :" + GameEntity.ID),
                 @NamedQuery(name = GameEntity.UPDATE, query = "Update GameEntity g set g.price = :" + GameEntity.PRICE + " where g.homeTeam = :" + GameEntity.HOME_TEAM + " and g.awayTeam = :" + GameEntity.AWAY_TEAM),
-                @NamedQuery(name = GameEntity.UPDATESPOTS, query = "Update GameEntity g set g.availableSpots = g.availableSpots - :" + GameEntity.BOUGHT_TICKETS + " where g.homeTeam = :" + GameEntity.HOME_TEAM + " and g.awayTeam = :" + GameEntity.AWAY_TEAM)
+                @NamedQuery(name = GameEntity.UPDATE_SPOTS, query = "Update GameEntity g set g.availableSpots = g.availableSpots - :" + GameEntity.BOUGHT_TICKETS + " where g.homeTeam = :" + GameEntity.HOME_TEAM + " and g.awayTeam = :" + GameEntity.AWAY_TEAM),
+                @NamedQuery(name = GameEntity.EMPTY_SPOTS, query = "Update GameEntity g set g.availableSpots = g.availableSpots + :" + GameEntity.EMPTIED_SPOTS + " where g.id = :" + GameEntity.ID),
+                @NamedQuery(name = GameEntity.GET_ID, query = "Select game.id from GameEntity game where game.homeTeam = :" + GameEntity.HOME_TEAM + " and game.awayTeam = :" + GameEntity.AWAY_TEAM)
+
         }
 )
 
@@ -35,8 +39,11 @@ public class GameEntity extends BaseEntity<Long> {
     public static final String HOME_TEAM = "homeTeam";
     public static final String PRICE = "price";
     public static final String UPDATE = "GameEntity.Update";
-    public static final String UPDATESPOTS = "GameEntity.UpdateSpots";
+    public static final String UPDATE_SPOTS = "GameEntity.UpdateSpots";
     public static final String BOUGHT_TICKETS = "boughtTickets";
+    public static final String EMPTIED_SPOTS = "emptiedSpots";
+    public static final String EMPTY_SPOTS = "GameEntity.EmptySpots";
+    public static final String GET_ID = "GameEntity.getId";
 
 
     @Column(name = "homeTeam", nullable = false)
@@ -45,8 +52,9 @@ public class GameEntity extends BaseEntity<Long> {
     @Column(name = "awayTeam", nullable = false)
     private String awayTeam;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "stage", nullable = false)
-    private String stage;
+    private GameStage stage;
 
     @Column(name = "price", nullable = false)
     private int price;
@@ -57,7 +65,7 @@ public class GameEntity extends BaseEntity<Long> {
     public GameEntity() {
     }
 
-    public GameEntity(String homeTeam, String awayTeam, String stage, int price, int availableSpots) {
+    public GameEntity(String homeTeam, String awayTeam, GameStage stage, int price, int availableSpots) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.stage = stage;
@@ -81,11 +89,11 @@ public class GameEntity extends BaseEntity<Long> {
         this.awayTeam = awayTeam;
     }
 
-    public String getStage() {
+    public GameStage getStage() {
         return stage;
     }
 
-    public void setStage(String stage) {
+    public void setStage(GameStage stage) {
         this.stage = stage;
     }
 
